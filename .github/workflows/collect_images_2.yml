@@ -1,0 +1,28 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: collect_images_2
+on:
+  schedule:
+    - cron: "12 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+    - run: node backend/collect_images.js
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Automated Image Upload
+        add_options: '--all -f'

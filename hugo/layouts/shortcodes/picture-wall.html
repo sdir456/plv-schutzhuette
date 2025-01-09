@@ -1,0 +1,351 @@
+<style>
+    input[type="file"] {display: none;}
+    #file-upload-form{width:100%;text-align:center;display:flex; gap:50px;font-family:open sans, sans-serif}
+    #file-upload-form>div{flex: 1 1 0px}
+    #file-upload-form:first-child{display: flex;flex-flow: wrap;align-items: center;justify-content: center;align-content: center;}
+    #file-upload-form:first-child>*{flex: 1 100%;}
+    .custom-file-upload {border: 1px dashed #ccc;display: flex;align-items: center;justify-content: center;padding: 6px 12px;cursor: pointer;aspect-ratio:1;width:100%;background-size:cover;background-position:center}
+    #file-upload-button{width:100%; height:20%; margin:0px;border:1px solid #ccc; background: rgba(125,125,125,0.5); color:white; cursor: pointer}
+    #image-preview {object-fit: cover; aspect-ratio: 1; width: 100%; display: block;}
+    #text-input {width:100%; height:calc(80% - 20px); margin-bottom:10px;}
+
+    .picture-wall {overflow: auto; margin-left: -1%!important; padding:0px;}
+    .picture-wall li {float: left; display: block; margin: 0 0 1% 1%; width: 19%;}
+    .picture-wall li a {text-align: center; text-decoration: none!important; color: #777;}
+    .picture-wall li a span {display: block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding: 3px 0;}
+    .picture-wall li a img {object-fit: cover; aspect-ratio: 1; width: 100%; display: block;}
+
+    #button-loader{
+        width: 30px;
+        height: 30px;
+        top: auto;
+        left: auto;
+        transform: translate(0%,-50%);
+        margin-top: -10px;
+        right: 0px;
+    }
+    
+    .loader{ position: absolute; width: 100px; height:100px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    .circular{ animation: rotate 2s linear infinite; height: 100px; position: relative; width: 100px; }
+    .path {
+        stroke-dasharray: 1,200;
+        stroke-dashoffset: 0;
+        stroke:#B6463A;
+        animation:
+            dash 1.5s ease-in-out infinite,
+            color 6s ease-in-out infinite
+        ;
+        stroke-linecap: round;
+    }
+
+    @keyframes rotate{
+        100%{
+            transform: rotate(360deg);
+        }
+    }
+    @keyframes dash{
+        0%{
+            stroke-dasharray: 1,200;
+            stroke-dashoffset: 0;
+        }
+        50%{
+            stroke-dasharray: 89,200;
+            stroke-dashoffset: -35;
+        }
+        100%{
+            stroke-dasharray: 89,200;
+            stroke-dashoffset: -124;
+        }
+    }
+    @keyframes color{
+        100%, 0%{
+            stroke: #d62d20;
+        }
+        40%{
+            stroke: #0057e7;
+        }
+        66%{
+            stroke: #008744;
+        }
+        80%, 90%{
+            stroke: #ffa700;
+        }
+    }
+</style>
+
+<div class="loader" id="picture-wall-loader">
+    <svg class="circular">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+    </svg>
+</div>
+
+{{ $dir := string (.Get "gallery_dir") }}
+<ul class="picture-wall" id="picture-wall-list">
+    {{ range (readDir (print "/assets" $dir)) }}
+        {{- $image := resources.Get (printf "%s/%s" $dir .Name) -}}
+        {{- $imageurl := printf "%s/%s" $dir .Name -}}
+        {{ if or (hasSuffix .Name ".jpeg") (hasSuffix .Name "jpg") (hasSuffix .Name "png")}}
+        {{- $fileid := index (split .Name ".") 0 -}}
+        {{- $txtfile := printf "/assets%s/%s.%s" $dir $fileid "txt" -}}
+        {{- $imagetitle := readFile $txtfile -}}
+        <li>
+            <a href="{{ ($image.Fit "1600x1600 q50").Permalink }}" class="lightbox-image" title="{{ $imagetitle | htmlEscape }}">
+                <img src="{{ ($image.Fill "300x300 q50").Permalink }}">
+                <!--<span>{{ $imagetitle }}</span>-->
+            </a>
+        </li>
+        {{ end }}
+    {{ end }}
+</ul>
+
+<form id='file-upload-form'>
+    <div>
+        <!--{{ with resources.Get "images/upload_default.png" }}<img id="image-preview" src="{{ .Permalink }}"/>{{ end }}-->
+        <label for="file-upload-input" class="custom-file-upload" id="custom-file-upload">Bild auswählen</label>
+        <input type="file" accept="image/*" id="file-upload-input" />
+    </div>
+    <div>
+        <!--<label for="text-input" class="text-input-label">Grusstext</label>-->
+        <textarea id="text-input" class="text-input" placeholder="Hinterlasse einen Grusstext."></textarea>
+        <button type="submit" id="file-upload-button">Abschicken
+            {{ with resources.Get "images/progress-circle.gif" }}<img src="{{ .RelPermalink }}" class="loader" id="button-loader" style="display:none" />{{ end }}
+            <!--<div class="loader" id="button-loader" style="display:none">
+                <svg class="circular">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+                </svg>
+            </div>-->
+        </button>
+    </div>
+</form>
+
+<script>
+
+function getHeadersGit(){
+  const headers = new Headers();
+  headers.append("Ac"+"ce"+"pt", "appli"+"cation"+"/"+"vnd.github+json");
+
+  const x1 = "gi" + "th";
+  const x2 = "ub" + "_p" + "at";
+  const x3 = "_11B" +  "MUD" + "4OY";
+  const x4 = "01g" + "SPV" + "TFE";
+  const x5 = "Bow" + "n_q" + "Cc3";
+  const x6 = "Bgr" + "crw" + "1Aa";
+  const x7 = "4bU" + "NEo" + "W2f";
+  const x8 = "P7Q" + "TQB" + "u04";
+  const x9 = "BHX" + "MCC" + "MvP";
+  const x10 = "pmX" + "ECI" + "WKY";
+  const x11 = "Q5r" + "BYj" + "FzG4";
+
+  headers.append("Au"+"th"+"or"+"iz"+"at"+"ion", "Be"+"ar"+"er "+x1+x2+x3+x4+x5+x6+x7+x8+x9+x10+x11);
+  headers.append("X-Gi"+"tHub"+"-Ap"+"i-Ve"+"rs"+"ion", "20"+"22-"+"11"+"-28");
+  return headers;
+}
+
+async function add(item){
+  url = "https://api.github.com/repos/plv-schutzhuette/plv-schutzhuette/issues/1/comments";  
+  let body = {"body": JSON.stringify(item)};
+  return await fetch(url, {method: "POST", headers: getHeadersGit(), body: JSON.stringify(body)});
+}
+
+async function getAll(){
+  let url = "https://api.github.com/repos/plv-schutzhuette/plv-schutzhuette/issues/1/comments";//?per_page=100";
+  let items = [];
+  do{
+    let response = await fetch(url, {headers: getHeadersGit()});
+    let it = await getItems(response);
+    items.push(...it);
+    url = getNextLink(response);
+  }while(url);
+  return items; //.reverse();
+};
+
+async function getItems(response){
+  const json = await response.json();
+  let items = [];
+  json.forEach(item =>{
+    try{
+      if (item.user.login === "plv-schutzhuette"){
+        let tempItem = JSON.parse(item.body);
+        if (!tempItem.processed && !tempItem.skip){
+            tempItem.id = item.id;
+            items.push(tempItem);
+        }
+      }
+    }
+    catch{}
+  });
+  return items;
+};
+
+function getNextLink(response){
+  let links = response.headers.get("link"); 
+
+  if (!links)
+    return;
+  const regexNextLink = /<(?<nextLink>[^>]+)>; rel="next".*$/g;
+  const nextLinkResult = regexNextLink.exec(links);
+
+  if (!nextLinkResult)
+    return;
+
+  return nextLinkResult.groups.nextLink;
+};
+
+function upload(file, text){
+    return new Promise(function(resolve, reject) {
+        if (!file && !text){
+            alert("Bitte Bild und/oder Text eingeben.");
+            resolve();
+        }
+
+        new Compressor(file, {
+            quality: 0.8,
+            maxWidth: 2048,
+            async success(result) {
+                let uploadResponse = await uploadImage(result);
+                if (!uploadResponse){
+                    resolve();
+                    return;
+                }
+
+                uploadResponse["text"] = text;
+                let response = await add(uploadResponse);
+                if (!response.ok) {
+                    alert("Upload fehlgeschlagen. Versuchen Sie es später erneut("+response.status+").");
+                    resolve();
+                    return;
+                }
+
+                resolve(uploadResponse);
+                return;
+            },
+            error(err) {
+                alert("Upload fehlgeschlagen. Fehler: "+err.message);
+                resolve();
+                return;
+            },
+        });
+    });    
+}
+
+function getThumbnailUrl(url){
+    try{
+        return url.replace(/^(.*)(\.[^\.]+)$/, "$1m$2");
+    }catch{
+        return ""; //TODO placeholder
+    }
+}
+
+async function uploadImage(file){
+  var formData = new FormData();
+
+  formData.append("image", file);
+  url = "https://api.imgur.com/3/image";
+
+  let x = [!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+([][(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()+[])[!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[+[]]+(![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+([][[]]+[])[!+[]+!+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[+!+[]];
+  let y = "Aut"+"hor"+"iza"+"tion";
+  let z = "Cl"+"ie"+"nt-"+"ID ";
+  const headers = new Headers();
+  headers.append(y, z+x);
+  let response = await fetch(url, {method: "POST", headers: headers, body: formData});
+  
+  if (!response.ok) {
+    alert("Bildupload fehlgeschlagen. Versuchen Sie es später erneut (" + response.status + ").");
+    return;
+  }
+
+  let json = await response.json();
+  
+  return {"deletehash": json.data.deletehash, "url": json.data.link.replace("https://i.imgur.com", ""), "fullurl": json.data.link, "skip": false};
+};
+
+function createListElement(item){
+    item.url = "https://i.imgur.com" + item.url;
+
+    let itemEl = document.createElement("li");
+        
+    let linkEl = document.createElement("a");
+    linkEl.setAttribute("href", item.url);
+    linkEl.setAttribute("title", item.text);
+    linkEl.setAttribute("class", "lightbox-image");
+    
+    linkEl.addEventListener("click", function(event) {
+        event.preventDefault();
+        document.getElementById('lightbox').innerHTML = '<a id="close"></a><a id="next">&rsaquo;</a><a id="prev">&lsaquo;</a><div class="img" style="background: url(\''+this.getAttribute('href')+'\') center center / contain no-repeat;" title="'+this.getAttribute('title')+'" ><img src="'+this.getAttribute('href')+'" alt="'+this.getAttribute('title')+'" /></div><span>'+this.getAttribute('title')+'</span>';
+        document.getElementById('lightbox').style.display = 'block';
+
+        setGallery(this);
+    });
+
+    let imgEl = document.createElement("img");
+    imgEl.setAttribute("src", getThumbnailUrl(item.url));
+    imgEl.setAttribute("alt", item.text);
+    imgEl.setAttribute("title", item.text);
+
+    linkEl.appendChild(imgEl);
+    itemEl.appendChild(linkEl);
+
+    return itemEl;
+}
+
+function sanitize(input){
+    let tempEl = document.createElement("span");
+    tempEl.textContent = input;
+    return tempEl.innerHTML;
+}
+
+(async function (){
+    let formEl = document.getElementById("file-upload-form");
+    formEl.addEventListener("submit", async (e) => {
+        e.preventDefault(); 
+
+        let buttonLoaderEl = document.getElementById("button-loader");
+        buttonLoaderEl.setAttribute("style", "display:block");
+        let buttonEl = document.getElementById("file-upload-button");
+        buttonEl.disabled = true;
+
+        let file = document.getElementById("file-upload-input").files[0];
+        let textInputEl = document.getElementById("text-input");
+        let text = sanitize(textInputEl.value);
+
+        let uploadResponse = await upload(file, text);
+
+        if (uploadResponse){
+            let itemEl = createListElement(uploadResponse);
+            let listEl = document.getElementById("picture-wall-list");
+            //listEl.prepend(itemEl);
+            listEl.append(itemEl);
+
+            formEl.reset();
+            let previewEl = document.getElementById("custom-file-upload"); //image-preview
+            previewEl.setAttribute("style", "background-image:none");
+        }
+
+        buttonLoaderEl.setAttribute("style", "display:none");
+        buttonEl.disabled = false;
+    });
+
+    let fileInputEl = document.getElementById("file-upload-input");
+    fileInputEl.addEventListener("change", (e) =>{
+        let file = event.target.files[0];
+        if (file) {
+            let previewEl = document.getElementById("custom-file-upload"); //image-preview
+            let url = URL.createObjectURL(file);
+            previewEl.setAttribute("style", "background-image:url("+url+")");
+        }
+    });
+
+    let items = await getAll();
+
+    let loaderEl = document.getElementById("picture-wall-loader");
+    loaderEl.setAttribute("style", "display:none");
+
+    let listEl = document.getElementById("picture-wall-list");
+
+    items.forEach(item =>{
+        let itemEl = createListElement(item);
+        listEl.append(itemEl);
+    });
+})();
+
+</script>

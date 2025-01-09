@@ -1,0 +1,5 @@
+hugo/node_modules/*
+hugo/resources/*
+hugo/public/*
+temp/
+temp.js

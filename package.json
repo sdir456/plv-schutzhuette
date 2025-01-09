@@ -1,0 +1,11 @@
+{
+  "name": "collect_images",
+  "version": "1.0.0",
+  "description": "",
+  "main": "collect_images.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
