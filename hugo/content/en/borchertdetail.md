@@ -91,3 +91,6 @@ Aber das hörte der Mann schon nicht mehr. Er lief mit seinen krummen Beinen auf
 zu. Die war schon rot vom Abend und Jürgen konnte sehen, wie sie durch die Beine
 hindurchschien, so krumm waren sie. Und der Korb schwankte aufgeregt hin und her.
 Kaninchenfutter war da drin. Grünes Kaninchenfutter, das war etwas grau vom Schutt.
+
+
+Quelle: http://writeaut.at/wp-content/uploads/2018/01/Kurzgeschichte-%E2%80%93-Nachts-schlafen-die-Ratten-doch.pdf
