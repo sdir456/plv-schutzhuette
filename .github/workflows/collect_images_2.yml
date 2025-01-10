@@ -3,8 +3,8 @@
 
 name: collect_images_2
 on:
-  schedule:
-    - cron: "12 3 * * *"
+#  schedule:
+#    - cron: "12 3 * * *"
   workflow_dispatch:
 
 permissions:
