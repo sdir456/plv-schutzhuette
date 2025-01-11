@@ -47,7 +47,7 @@ enableEmoji = true
     header_image = "images/cover-image.jpg"
 
     # The "description" of your website. This is used in the meta data of your generated html.
-    description = "PLV Schutzütte - Ahle, Heek, Ahaus - Die Wetterschutzhütte der Nachbarschaft"
+    description = "PLV Schutzhütte - Ahle, Heek, Ahaus - Die Wetterschutzhütte der Nachbarschaft"
 
     # Show a menu of languages available
     language_menu = false
