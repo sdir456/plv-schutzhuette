@@ -10,23 +10,16 @@ function getHeadersGit(){
   
     const x1 = "gi" + "th";
     const x2 = "ub" + "_p" + "at";
-    const x3 = "_11B" +  "MUD" + "4OY";
-    const x4 = "01g" + "SPV" + "TFE";
-    const x5 = "Bow" + "n_q" + "Cc3";
-    const x6 = "Bgr" + "crw" + "1Aa";
-    const x7 = "4bU" + "NEo" + "W2f";
-    const x8 = "P7Q" + "TQB" + "u04";
-    const x9 = "BHX" + "MCC" + "MvP";
-    const x10 = "pmX" + "ECI" + "WKY";
-    const x11 = "Q5r" + "BYj" + "FzG4";
-
+    const x3 = "_11ABR3H7Q0unWcIW17gVzX_TZFpayfZFpuBw";
+    const x4 = "iqGCPZaJ6ZdgQoVSANnw5fv9ZJABiBVRKFZRBER5xByyru";
+  
     headers.append("Au"+"th"+"or"+"iz"+"at"+"ion", "Be"+"ar"+"er "+x1+x2+x3+x4+x5+x6+x7+x8+x9+x10+x11);
     headers.append("X-Gi"+"tHub"+"-Ap"+"i-Ve"+"rs"+"ion", "20"+"22-"+"11"+"-28");
     return headers;
 }
   
 async function getAll(){
-    let url = "https://api.github.com/repos/plv-schutzhuette/plv-schutzhuette/issues/1/comments";//?per_page=100";
+    let url = "https://api.github.com/repos/sdir456/plv-schutzhuette/issues/1/comments";//?per_page=100";
     let items = [];
     do{
         let response = await fetch(url, {headers: getHeadersGit()});
@@ -44,7 +37,7 @@ async function getItems(response){
 
     json.forEach(item =>{
         try{
-        if (item.user.login === "plv-schutzhuette"){
+        if (item.user.login === "plv-schutzhuette" || item.user.login === "sdir456"){
             let tempItem = JSON.parse(item.body);
             if (!tempItem.processed){
                 if (tempItem.skip){
@@ -86,7 +79,7 @@ function getNextLink(response){
 
 async function updateComment(item){
     item.processed = true;
-    let url = "https://api.github.com/repos/plv-schutzhuette/plv-schutzhuette/issues/comments/"+item.id;  
+    let url = "https://api.github.com/repos/sdir456/plv-schutzhuette/issues/comments/"+item.id;  
     console.log(url);
     delete item.id;
     let body = {"body": JSON.stringify(item)};
