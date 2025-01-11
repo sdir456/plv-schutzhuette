@@ -1,7 +1,7 @@
 ---
-title: "Momente Teilen – Erinnerungen Festhalten"
-header_menu_title: "Momente Teilen"
-navigation_menu_title: "Momente teilen"
+title: "Momente teilen - Fotowand"
+header_menu_title: "Momente teilen - Fotowand"
+navigation_menu_title: "Momente teilen - Fotowand"
 weight: 6
 header_menu: true
 ---
