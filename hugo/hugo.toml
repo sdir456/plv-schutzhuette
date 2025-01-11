@@ -47,7 +47,7 @@ enableEmoji = true
     header_image = "images/cover-image.jpg"
 
     # The "description" of your website. This is used in the meta data of your generated html.
-    description = "Nutrition Coach & Chef Consultant"
+    description = "PLV Schutzütte - Ahle, Heek, Ahaus - Die Wetterschutzhütte der Nachbarschaft"
 
     # Show a menu of languages available
     language_menu = false
@@ -82,7 +82,7 @@ enableEmoji = true
     showFooterLinks = false
 
     [params.meta]
-        keywords = "some, keywords, for, seo, you, know, google, duckduckgo, and, such"
+        keywords = "plv, schuthuette, schutzhütte, paul, nachbarschaft, lütke-vestert, ahle, heek, ahaus, moorbach, gemeinschaft, tradition, mundart, plattdeutsch, platt"
 
     #[[params.contacts]]
     #    label = "phone"
