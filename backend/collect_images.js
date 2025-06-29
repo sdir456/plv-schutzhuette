@@ -47,7 +47,7 @@ async function getItems(response){
 
                     let expireTime = new Date(item.created_at);
                     let days = (expireTime - currentTime) / (1000 * 60 * 60 * 24);
-                    if (days < -30){
+                    if (days < -3){
                         console.log("item " + item.id + " created at " + item.created_at + " is old enough (" + Math.ceil(days) + " days). -> proceed");
                         tempItem.id = item.id;
                         items.push(tempItem);
